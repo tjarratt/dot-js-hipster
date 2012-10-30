@@ -41,6 +41,11 @@ $(document).ready(function() {
       var new_document = $(data);
       var new_logs = new_document.find(".latest-build");
       current_build_log.html(new_logs);
+      window.scrollTo(0, document.body.scrollHeight);
+
+      if (new_logs.match(/not ok/)) {
+        $("div.footer").css("background", "red");
+      }
 
       if ($(".latest-build").hasClass("passed")) {
         window.clearInterval(id);
