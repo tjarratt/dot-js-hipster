@@ -43,7 +43,7 @@ $(document).ready(function() {
       current_build_log.html(new_logs);
       window.scrollTo(0, document.body.scrollHeight);
 
-      if (new_logs.match(/not ok/)) {
+      if (new_logs.html().match(/not ok/)) {
         $("div.footer").css("background", "red");
       }
 
