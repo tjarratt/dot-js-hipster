@@ -47,7 +47,7 @@ $(document).ready(function() {
         $("div.footer").css("background", "red");
       }
 
-      if ($(".latest-build").hasClass("passed")) {
+      if ($(".latest-build").hasClass("passed") || $(".latest-build").hasClass("failed")) {
         window.clearInterval(id);
       }
     });
