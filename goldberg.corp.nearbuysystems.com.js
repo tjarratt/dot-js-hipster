@@ -35,21 +35,24 @@ $(document).ready(function() {
 
   var url = window.location.pathname;
   var current_build_log = $(".latest-build");
-  var id = window.setInterval(function() {
-    $.get(url, function(data) {
-      if (!$("#refresh_toggle").attr("checked")) { return; }
-      var new_document = $(data);
-      var new_logs = new_document.find(".latest-build");
-      current_build_log.html(new_logs);
-      window.scrollTo(0, document.body.scrollHeight);
 
-      if (new_logs.html().match(/not ok/)) {
-        $("div.footer").css("background", "red");
-      }
+  if (!current_build_log.hasClass("failed") && !current_build_log.hasClass("passed")) {
+    var id = window.setInterval(function() {
+      $.get(url, function(data) {
+        if (!$("#refresh_toggle").attr("checked")) { return; }
+        var new_document = $(data);
+        var new_logs = new_document.find(".latest-build");
+        current_build_log.html(new_logs);
+        window.scrollTo(0, document.body.scrollHeight);
 
-      if ($(".latest-build").hasClass("passed") || $(".latest-build").hasClass("failed")) {
-        window.clearInterval(id);
-      }
-    });
-  }, 1000);
+        if (new_logs.html().match(/not ok/)) {
+          $("div.footer").css("background", "red");
+        }
+
+        if ($(".latest-build").hasClass("passed") || $(".latest-build").hasClass("failed")) {
+          window.clearInterval(id);
+        }
+      });
+    }, 1000 );
+  }
 });
