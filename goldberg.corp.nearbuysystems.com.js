@@ -29,6 +29,20 @@ $(document).ready(function() {
   command_center.append(refresh_toggle);
   show_hide_toggle.click();
 
+  // convenient shortcut to toggle
+  var refresh_shortcut = false;
+  $(document).keydown(function(e) {
+    var key = e.keyCode || e.which;
+    if (key == 65) {
+      refresh_shortcut = true;
+    }
+    else if (key == 82 && refresh_toggle) {
+      refresh_toggle.click();
+    } else {
+      refresh_shortcut = false;
+    }
+  });
+
   var builds = sidebar.html();
   sidebar.html(command_center);
   sidebar.append(builds);
