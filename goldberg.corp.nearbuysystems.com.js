@@ -61,6 +61,9 @@ $(document).ready(function() {
 
         if (new_logs.html().match(/not ok/)) {
           $("div.footer").css("background", "red");
+          var heading = $("div.project_heading");
+          heading.css("background", "red");
+          heading.html(heading.html().replace('building', 'failing'));
         }
 
         if ($(".latest-build").hasClass("passed") || $(".latest-build").hasClass("failed")) {
