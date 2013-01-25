@@ -29,9 +29,19 @@ $(document).ready(function() {
     command_center.append(refresh_toggle);
     show_hide_toggle.click();
 
+    var current_branch = function() {
+        var path = window.location.pathname.split('/');
+        while (part = path.pop()) {
+            if (part.match(/storenet/)) {
+                return part.replace('storenet-', '');
+            }
+        }
+        return undefined;
+    };
+
     var switch_to_branch = function(name) {
         var branch = "storenet" + (name == "master" ? "" : "-" + name);
-        var this_branch = window.location.pathname.split('/').pop().replace('storenet-', '');
+        var this_branch = current_branch();
         if (this_branch == branch || this_branch == '' && branch == 'master') { return; }
 
         window.location = 'https://goldberg.corp.nearbuysystems.com/projects/' + branch;
@@ -51,9 +61,27 @@ $(document).ready(function() {
         'Control+D': function(e) { switch_to_branch('deploy'); },
         'Alt+Right': function(e) {
             console.log("to the future!");
+            var current_build = $("li.selected");
+            if (current_build[0] == $("div.past-builds ul li:first-child")[0]) {
+                return console.log("already at the present. Refusing to visit the future like a coward!");
+            }
+
+            var current_build_number = current_build.children("a").html().replace(' building', '');
+            var next_build = parseInt(current_build_number) + 1;
+            window.location = 'https://goldberg.corp.nearbuysystems.com/projects/' + current_branch() + '/builds/' + next_build;
         },
         'Alt+Left': function(e) {
             console.log("back to the past!");
+
+            var current_build = $("li.selected");
+            var total_builds = $("div.past-builds ul li").length;
+            if (current_build[0] == $("div.past-builds ul li:first-child")[total_builds - 1]) {
+                return console.log("Refusing to travel past the beginning of the universe like a coward!");
+            }
+
+            var current_build_number = current_build.children("a").html().replace(' building', '');
+            var next_build = parseInt(current_build_number) - 1;
+            window.location = 'https://goldberg.corp.nearbuysystems.com/projects/' + current_branch() + '/builds/' + next_build;
         }
     });
 
