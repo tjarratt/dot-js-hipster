@@ -59,6 +59,7 @@ $(document).ready(function() {
         'Control+M': function(e) { switch_to_branch('master'); },
         'Control+S': function(e) { switch_to_branch('staging'); },
         'Control+D': function(e) { switch_to_branch('deploy'); },
+        'Control+I': function(e) { window.location = 'https://goldberg.corp.nearbuysystems.com'; },
         'Alt+Right': function(e) {
             console.log("to the future!");
             var current_build = $("li.selected");
