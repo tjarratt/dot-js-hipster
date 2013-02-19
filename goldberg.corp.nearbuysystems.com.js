@@ -31,9 +31,10 @@ $(document).ready(function() {
 
     var current_branch = function() {
         var path = window.location.pathname.split('/');
-        while (part = path.pop()) {
-            if (part.match(/storenet/)) {
-                return part.replace('storenet-', '');
+        var part;
+        while ((part = path.pop())) {
+            if (part.match(/projects/)) {
+              return path.pop().replace('storenet-', '');
             }
         }
         return undefined;
@@ -45,9 +46,9 @@ $(document).ready(function() {
         if (this_branch == branch || this_branch == '' && branch == 'master') { return; }
 
         window.location = 'https://goldberg.corp.nearbuysystems.com/projects/' + branch;
-    }
+    };
 
-    keyboard = window.Keyboard.Keyboard();
+    var keyboard = window.Keyboard.Keyboard();
     keyboard.bind(document);
     keyboard.define({
         'Control+R': function(e) {
@@ -111,6 +112,7 @@ $(document).ready(function() {
 
                 if ($(".latest-build").hasClass("passed") || $(".latest-build").hasClass("failed")) {
                     window.clearInterval(id);
+                    // TODO : setup an interval so we can periodically refresh to see the next build
                 }
             });
         }, 1000 );
