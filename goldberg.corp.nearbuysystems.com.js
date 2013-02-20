@@ -32,9 +32,9 @@ $(document).ready(function() {
     var current_branch = function() {
         var path = window.location.pathname.split('/');
         var part;
-        while ((part = path.pop())) {
+        while ((part = path.shift()) != undefined) {
             if (part.match(/projects/)) {
-              return path.pop().replace('storenet-', '');
+                return path.shift();
             }
         }
         return undefined;
@@ -43,7 +43,7 @@ $(document).ready(function() {
     var switch_to_branch = function(name) {
         var branch = "storenet" + (name == "master" ? "" : "-" + name);
         var this_branch = current_branch();
-        if (this_branch == branch || this_branch == '' && branch == 'master') { return; }
+        if (this_branch == branch || this_branch == 'storenet' && branch == 'master') { return; }
 
         window.location = 'https://goldberg.corp.nearbuysystems.com/projects/' + branch;
     };
@@ -78,12 +78,13 @@ $(document).ready(function() {
             var current_build = $("li.selected");
             var total_builds = $("div.past-builds ul li").length;
             if (current_build[0] == $("div.past-builds ul li:first-child")[total_builds - 1]) {
-                return console.log("Refusing to travel past the beginning of the universe like a coward!");
+                console.log("Refusing to travel past the beginning of the universe like a coward!");
             }
-
-            var current_build_number = current_build.children("a").html().replace(' building', '');
-            var next_build = parseInt(current_build_number) - 1;
-            window.location = 'https://goldberg.corp.nearbuysystems.com/projects/' + current_branch() + '/builds/' + next_build;
+            else {
+                var current_build_number = current_build.children("a").html().replace(' building', '');
+                var next_build = parseInt(current_build_number) - 1;
+                window.location = 'https://goldberg.corp.nearbuysystems.com/projects/' + current_branch() + '/builds/' + next_build;
+          }
         }
     });
 
